@@ -1,1 +1,5 @@
 # Stepper-Motor
+
+
+esptool.py --port COM5 erase_flash
+esptool.py --port COM5 --baud 460800 write_flash --flash_size=detect -fm dio 0 esp`autocomplete`
