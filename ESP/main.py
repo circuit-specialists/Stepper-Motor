@@ -16,7 +16,7 @@ class MAIN:
         self.DIR = Pin(self.device.D2, Pin.OUT)
         self.setStepsPerRevolution(200)
         self.setDirection('CW')
-        self.setSpeed(1)
+        self.setSpeed(60)
 
     def setStepsPerRevolution(self, steps):
         self.steps_per_revolution = steps
@@ -38,13 +38,23 @@ class MAIN:
         self.cycle(steps)
 
     def cycle(self, steps):
-        time_pulse = self.speed / self.steps_per_revolution / 2
-        print(time_pulse)
+        steps_per_second = (self.speed * self.steps_per_revolution) / 60
+        seconds_per_step = 1 / steps_per_second
+        # use time base, such as sleep_us = 1000000
+        # must use int for ms or us
+        us_per_step = int(1000000 * seconds_per_step)
         for step in range(int(steps)):
             self.PULSE.on()
-            time.sleep(time_pulse)
             self.PULSE.off()
-            time.sleep(time_pulse)
+            time.sleep_us(us_per_step)
+
+    def test(self):
+        time_pulse = 5000
+        steps = 200
+        for step in range(int(steps)):
+            self.PULSE.on()
+            self.PULSE.off()
+            time.sleep_us(time_pulse)
 
 
 class DISPLAY:
