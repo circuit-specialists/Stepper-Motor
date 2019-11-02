@@ -5,14 +5,16 @@
    licensed as GPLv3
 */
 
-int stepsPerSecond = 200;
-int CP_plus = 9;
-int CW_plus = 8;
+const int stepsPerRevolution = 200; // Normal step is 200, Microstep is 1600
+const int stepperSpeed = 300; // 300 RPM is fluid
+const int CP_plus = 9;
+const int CW_plus = 8;
 
 void setup() {
   pinMode(CP_plus, OUTPUT);
   pinMode(CW_plus, OUTPUT);
   digitalWrite(CW_plus, HIGH);
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -37,11 +39,13 @@ void rotate(int degrees, String direction) {
 }
 
 void steps(int amount) {
-  double delayTime = (1 - (.0000002 * 2)) / stepsPerSecond / 2;
+  double delayTime = 150000.00 / double(stepperSpeed);
   for (int i = 0; i < amount; i++) {
     digitalWrite(CP_plus, HIGH);
+    delayMicroseconds(20);
     delayMicroseconds(delayTime);
     digitalWrite(CP_plus, LOW);
+    delayMicroseconds(20);
     delayMicroseconds(delayTime);
   }
 }
@@ -58,4 +62,3 @@ void changeDirection(String direction) {
     digitalWrite(CW_plus, LOW);
   }
 }
-
