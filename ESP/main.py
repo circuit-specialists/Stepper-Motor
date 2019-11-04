@@ -5,12 +5,12 @@ licensed as GPLv3
 """
 
 from machine import Pin
-import nodeMCU
+import espressif
 import time
 
 class MAIN:
     def __init__(self):
-        self.device = nodeMCU.ESP8266()
+        self.device = espressif.ESP8266()
         self.PULSE = Pin(self.device.D1, Pin.OUT)
         self.DIR = Pin(self.device.D2, Pin.OUT)
         self.setStepsPerRevolution(200) # Out motors are 200 steps per volution
