@@ -6,7 +6,6 @@ licensed as GPLv3
 
 from machine import Pin
 import nodeMCU
-#import Adafruit_Python_SSD1306
 import time
 
 class MAIN:
@@ -31,30 +30,25 @@ class MAIN:
 
     def setSpeed(self, speed):
         # speed = RPM
-        self.speed = speed
+        self.speed = float(speed)
 
-    def rotate(self, degrees):
-        steps = degrees / (360 / self.steps_per_revolution)
-        self.cycle(steps)
+    def rotate(self, degrees, direction=None):
+        if(direction != None):
+            self.setDirection(direction)
+        steps = degrees / (360.0 / self.steps_per_revolution)
+        self.step(steps)
 
-    def cycle(self, steps):
-        steps_per_second = (self.speed * self.steps_per_revolution) / 60
-        seconds_per_step = 1 / steps_per_second
+    def step(self, steps):
+        delayTime = 150000.00 / self.speed
         # use time base, such as sleep_us = 1000000
         # must use int for ms or us
-        us_per_step = int(1000000 * seconds_per_step)
         for step in range(int(steps)):
             self.PULSE.on()
+            time.sleep_us(20)
+            time.sleep_us(delayTime)
             self.PULSE.off()
-            time.sleep_us(us_per_step)
-
-    def test(self):
-        time_pulse = 5000
-        steps = 200
-        for step in range(int(steps)):
-            self.PULSE.on()
-            self.PULSE.off()
-            time.sleep_us(time_pulse)
+            time.sleep_us(20)
+            time.sleep_us(delayTime)
 
 
 class DISPLAY:
