@@ -13,9 +13,9 @@ class MAIN:
         self.device = nodeMCU.ESP8266()
         self.PULSE = Pin(self.device.D1, Pin.OUT)
         self.DIR = Pin(self.device.D2, Pin.OUT)
-        self.setStepsPerRevolution(200)
+        self.setStepsPerRevolution(200) # Out motors are 200 steps per volution
         self.setDirection('CW')
-        self.setSpeed(60)
+        self.setSpeed(300) # default is 300 RPM for fluid motion
 
     def setStepsPerRevolution(self, steps):
         self.steps_per_revolution = steps
