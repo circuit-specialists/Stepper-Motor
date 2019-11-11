@@ -5,17 +5,16 @@ licensed as GPLv3
 """
 
 from machine import Pin
-import espressif
 import time
 
-class MAIN:
+class STEPPER:
     def __init__(self):
-        self.device = espressif.ESP8266()
-        self.PULSE = Pin(self.device.D1, Pin.OUT)
-        self.DIR = Pin(self.device.D2, Pin.OUT)
-        self.setStepsPerRevolution(200.00) # Out motors are 200 steps per volution
+        #self.device = espressif.ESP8266()
+        self.PULSE = Pin(17, Pin.OUT)
+        self.DIR = Pin(18, Pin.OUT)
+        self.setStepsPerRevolution(200.00) # Our motors are 200 steps per revolution
         self.setDirection('CW')
-        self.setSpeed(300.00) # default is 300 RPM for fluid motion
+        self.setSpeed(600.00) # default is 600 RPM for fluid motion, Lower will ruin the motor, higher than 1000 will ruin the motor
 
     def setStepsPerRevolution(self, steps):
         self.steps_per_revolution = steps
@@ -39,15 +38,15 @@ class MAIN:
 
     def step(self, steps):
         delayTime = 150000.00 / self.speed
-        for step in range(int(steps)):
+        for step in range(int(steps * 2)):
             self.PULSE.on()
             time.sleep_us(20)
-            time.sleep_us(delayTime)
+            time.sleep_us(int(delayTime))
             self.PULSE.off()
             time.sleep_us(20)
-            time.sleep_us(delayTime)
+            time.sleep_us(int(delayTime))
 
 
-class DISPLAY:
-    def __init__(self):
-        print()
+if __name__ == "__main__":
+    motor = STEPPER()
+    motor.rotate(720)
