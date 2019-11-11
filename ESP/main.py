@@ -6,6 +6,7 @@ licensed as GPLv3
 
 from machine import Pin
 import time
+import network
 
 class STEPPER:
     def __init__(self):
@@ -14,7 +15,7 @@ class STEPPER:
         self.DIR = Pin(18, Pin.OUT)
         self.setStepsPerRevolution(200.00) # Our motors are 200 steps per revolution
         self.setDirection('CW')
-        self.setSpeed(600.00) # default is 600 RPM for fluid motion, Lower will ruin the motor, higher than 1000 will ruin the motor
+        self.setSpeed(400.00) # default is 600 RPM for fluid motion, Lower will ruin the motor, higher than 1000 will ruin the motor
 
     def setStepsPerRevolution(self, steps):
         self.steps_per_revolution = steps
@@ -46,7 +47,16 @@ class STEPPER:
             time.sleep_us(20)
             time.sleep_us(int(delayTime))
 
+class WiFi:
+    def __init__(self, ap_name):
+        self.ap = network.WLAN(network.AP_IF)   # create access-point interface
+        self.ap.config(essid=ap_name)     # set the ESSID of the access point
+        self.ap.active(True)                    # activate the interface
+
 
 if __name__ == "__main__":
+    ## WiFi setup
+    wifi = WiFi()
+
+    ## Stepper Control
     motor = STEPPER()
-    motor.rotate(720)
