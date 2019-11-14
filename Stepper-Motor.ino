@@ -43,10 +43,10 @@ void steps(int amount) {
   for (int i = 0; i < amount; i++) {
     digitalWrite(CP_plus, HIGH);
     delayMicroseconds(20);
-    delayMicroseconds(delayTime);
+    delayMicroseconds(delayTime - 20);
     digitalWrite(CP_plus, LOW);
     delayMicroseconds(20);
-    delayMicroseconds(delayTime);
+    delayMicroseconds(delayTime - 20);
   }
 }
 
